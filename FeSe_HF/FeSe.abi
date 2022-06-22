@@ -1,0 +1,64 @@
+ndtset 2
+jdtset 1 2
+getwfk -1
+nline1 5
+nnsclo1 5
+nline2 10
+nnsclo2 10
+nstep1    30
+nstep2    1
+
+#Definition of the unit cell
+acell  7.1214 7.1214 10.442
+rprim  0.7071 -0.7071 0.0
+       0.7071 0.7071 0.0
+       0.0 0.0 1.0
+
+#Definition of the atom types and pseudopotentials
+natom 4
+ntypat 2
+typat 1 1 2 2
+znucl 26 34
+xred 0.0 0.0 0.5
+     0.5 0.5 0.5
+     0.0 0.5 0.2328
+     0.5 0.0 0.7672
+
+pp_dirpath "/path/to/paw/datasets/"
+pseudos "Fe.GGA_PBE-JTH.xml, Se.GGA_PBE-JTH.xml" # Name and location of the pseudopotentials
+
+#Planewave basis set, number of bands and occupations
+ecut      20.0          # Maximal plane-wave kinetic energy cut-off, in Hartree
+pawecutdg 40.0          # PAW: Energy Cutoff for the Double Grid
+tolvrs    1.0d-7
+nband     36            # Number of bands
+occopt    3             # Occupation option for metal
+tsmear    50 K          # Temperature of smearing
+
+pawprtvol 3
+prtvol    4
+
+#K point grid
+ngkpt 6 6 4
+istwfk *1
+
+#DFT+DMFT
+usedmft1  0
+usedmft2  1
+dmftbandi 11            # First band included in the projection. Initial
+dmftbandf 26            # and final bands.
+dmft_nwlo 1000          # Logarythmic frequency mesh
+dmft_nwli 100000        # Linear freqeuncy mesh
+dmft_iter 80            # Number of iterations of the DMFT part.
+                        # We often use single-shot, since anyway the charge density
+                        # changes through the DFT+DMFT anyway.
+dmft_rslf 1             # Read self-energy, if nothing (like here) initialize.
+dmft_dc   1             # Double counting type. 1 is Fully Localized Limit (FLL)
+dmft_solv        2      # Choice of solver: External solver 
+usepawu     1  #  For density matrix printout. 
+dmatpuopt  1   # The density matrix: the simplest expression. 1. projection on atomic orbital 2. integrate PAW sphere
+lpawu   2 -1
+upawu1  0.0  0.0 eV
+jpawu1  0.0  0.0 eV
+upawu2  3.6  0.0 eV
+jpawu2  0.0  0.0 eV
